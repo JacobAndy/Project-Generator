@@ -38,11 +38,24 @@ const scraper = async () => {
   await page.click(
     "#js-repo-pjax-container > div.container.new-discussion-timeline.experiment-repo-nav > div.repository-content > div.file > div.file-header > div.file-actions > form.inline-form.js-update-url-with-hash > button"
   );
-  //   await page.waitFor(10000);
-  await page.type(
-    "#new_blob > div.file.js-code-editor.container-preview.show-code > div.commit-create > div > div.CodeMirror-scroll > div.CodeMirror-sizer > div > div > div > div.CodeMirror-code > div:nth-child(11) > div",
-    "test"
+  await page.waitFor(2000);
+  await page.click(
+    "#new_blob > div.file.js-code-editor.container-preview.show-code > div.commit-create > div > div.CodeMirror-scroll > div.CodeMirror-sizer > div > div > div > div.CodeMirror-code > div:nth-child(11)"
   );
+  await page.waitFor(200);
+  await page.type(
+    "#new_blob > div.file.js-code-editor.container-preview.show-code > div.commit-create > div > div.CodeMirror-scroll > div.CodeMirror-sizer > div > div > div > div.CodeMirror-code > div:nth-child(11)",
+    `
+
+    /*Hello World*/
+
+    `
+  );
+  await page.waitFor(10);
+  await page.type("#commit-summary-input", "Fixing Error");
+  await page.waitFor(10);
+  await page.click("#submit-file");
+  await browser.close();
 };
 scraper();
 module.exports = { scraper };
